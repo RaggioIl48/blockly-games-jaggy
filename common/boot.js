@@ -55,18 +55,10 @@ if (location.host === 'blockly-games.appspot.com' ||
   }
   window['BlocklyGamesLang'] = lang;
 
-  var debug = false;
-  try {
-    if (/[?&]debug=1\b/.test(location.search)) {
-      sessionStorage.setItem('debug', '1');
-    }
-    debug = !!sessionStorage.getItem('debug');
-    if (debug) {
-      console.info('Loading uncompressed JavaScript.');
-    }
-  } catch (e) {
-    // Don't even think of throwing an error.
-  }
+  // This deployment only ships the uncompressed (debug) bundles -- there's
+  // no Closure-compiled 'compressed.js' for most apps -- so always load the
+  // uncompressed source rather than gating it behind a URL param/session flag.
+  var debug = true;
 
   // Load the chosen language pack.
   var script = document.createElement('script');
