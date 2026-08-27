@@ -1168,7 +1168,8 @@ function execute() {
   Blockly.selected?.unselect();
   const code = BlocklyCode.getJsCode();
   BlocklyCode.executedJsCode = code;
-  BlocklyInterface.executedCode = BlocklyInterface.getCode();
+  const executedCode = BlocklyInterface.getCode();
+  BlocklyInterface.executedCode = executedCode;
   result = ResultType.UNSET;
   const interpreter = new Interpreter(code, initInterpreter);
 
@@ -1213,6 +1214,10 @@ function execute() {
   // log now contains a transcript of all the user's actions.
   // Reset the maze and animate the transcript.
   reset(false);
+  // reset() clears executedCode as a "nothing is running" signal, but we
+  // need it to survive until the 'finish' animation frame actually saves
+  // it -- restore it now that the reset is done.
+  BlocklyInterface.executedCode = executedCode;
   pidList.push(setTimeout(animate, 100));
 }
 
