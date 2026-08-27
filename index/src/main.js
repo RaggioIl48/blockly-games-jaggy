@@ -27,7 +27,7 @@ const APPS = ['puzzle', 'maze', 'bird', 'turtle', 'movie', 'music',
  * @param {string} app Name of application.
  * @returns {number} Highest level for this app.
  */
-const EXTRA_MAX_LEVEL = {maze: 22, bird: 11};
+const EXTRA_MAX_LEVEL = {maze: 23, bird: 11};
 function maxLevelFor(app) {
   return EXTRA_MAX_LEVEL[app] || BlocklyGames.MAX_LEVEL;
 }

@@ -66,7 +66,7 @@ ${Maze.html.helpDialogs_()}
 
 /**
  * Toolboxes for each level.
- * @param {number} level Level 1-22.
+ * @param {number} level Level 1-23.
  * @returns {string} HTML.
  * @private
  */

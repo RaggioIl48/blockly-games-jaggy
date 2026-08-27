@@ -35,12 +35,12 @@ BlocklyGames.storageName = 'maze';
 // Maze has one more level than the other apps, which all share
 // BlocklyGames.MAX_LEVEL.  Override it here, and re-derive LEVEL from the
 // URL now that the ceiling has changed.
-BlocklyGames.MAX_LEVEL = 22;
+BlocklyGames.MAX_LEVEL = 23;
 BlocklyGames.LEVEL =
     BlocklyGames.getIntegerParamFromUrl('level', 1, BlocklyGames.MAX_LEVEL);
 
 const MAX_BLOCKS =
-  [Infinity, Infinity, 2, 5, 5, 5, 5, 10, 7, 10, Infinity, 10, 10, 10, 10, 10, 10, 8, 7, 6, 10, 9][BlocklyGames.LEVEL - 1];
+  [Infinity, Infinity, 2, 5, 5, 5, 5, 10, 7, 10, Infinity, 10, 10, 10, 10, 10, 10, 8, 7, 6, 10, 9, 7][BlocklyGames.LEVEL - 1];
 
 // Crash type constants.
 const CRASH_STOP = 1;
@@ -341,6 +341,22 @@ const map = [
   [0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0],
   [0, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+// Level 23.  Loop trap: going straight whenever possible walks you in an
+// endless circle.  Only true wall-hugging (always try the near-hand
+// direction first) escapes it and reaches the goal.
+ [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 3, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0],
+  [0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0],
+  [0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0],
+  [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+  [0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0],
+  [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+  [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+  [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0],
+  [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+  [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+  [0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
 ][BlocklyGames.LEVEL - 1];
 
 /**
@@ -1267,10 +1283,24 @@ function animate() {
     case 'finish':
       scheduleFinish(true);
       BlocklyInterface.saveToLocalStorage();
-      setTimeout(BlocklyCode.congratulations, 1000);
+      setTimeout(showCongratulations_, 1000);
   }
 
   pidList.push(setTimeout(animate, stepSpeed * 5));
+}
+
+/**
+ * Show the standard congratulations dialog.  Level 23 gets an extra
+ * message, since it's the hardest maze in the set.
+ * @private
+ */
+function showCongratulations_() {
+  BlocklyCode.congratulations();
+  if (BlocklyGames.LEVEL === 23) {
+    const p = BlocklyGames.getElementById('dialogDoneText');
+    p.textContent = 'Esto es tan complejo que hasta Mr. Villa le tocó ' +
+        'pensar por 1 segundo. ' + p.textContent;
+  }
 }
 
 /**
