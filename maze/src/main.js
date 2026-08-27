@@ -40,7 +40,7 @@ BlocklyGames.LEVEL =
     BlocklyGames.getIntegerParamFromUrl('level', 1, BlocklyGames.MAX_LEVEL);
 
 const MAX_BLOCKS =
-  [Infinity, Infinity, 2, 5, 5, 5, 5, 10, 7, 10, Infinity, 10, 10, 10, 10, 10, 10, 8, 7, 6, 10, 9, 7][BlocklyGames.LEVEL - 1];
+  [Infinity, Infinity, 2, 5, 5, 5, 5, 10, 7, 10, 9, 6, 6, 6, 10, 6, 10, 8, 7, 6, 10, 6, 7][BlocklyGames.LEVEL - 1];
 
 // Crash type constants.
 const CRASH_STOP = 1;
