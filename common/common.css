@@ -45,6 +45,10 @@ html[dir="RTL"] .farSide {
   border-color: #388e3c;
   color: #fff;
 }
+.level_locked {
+  opacity: 0.3;
+  cursor: default;
+}
 #containerCode {
   direction: ltr;
   background-color: #eee;

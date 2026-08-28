@@ -236,6 +236,16 @@ BlocklyGames.LEVEL =
  * @param {string} title Text for the page title.
  */
 BlocklyGames.init = function(title) {
+  // Don't allow jumping ahead to a level without solving the ones before
+  // it -- bounce back to the furthest level actually unlocked.
+  if (BlocklyGames.storageName && BlocklyGames.LEVEL > 1) {
+    const unlocked = BlocklyGames.getUnlockedLevel(BlocklyGames.MAX_LEVEL);
+    if (BlocklyGames.LEVEL > unlocked) {
+      location.replace('?lang=' + BlocklyGames.LANG + '&level=' + unlocked);
+      return;
+    }
+  }
+
   document.title = BlocklyGames.getMsg('Games.name', true) +
       (title && ' : ') + title;
 
@@ -346,6 +356,25 @@ BlocklyGames.loadFromLocalStorage = function(name, level) {
     // Restarting Firefox fixes this, so it looks like a bug.
   }
   return xml;
+};
+
+/**
+ * Determine the highest level the player may currently jump to: the
+ * first level they haven't completed yet (or maxLevel, if every level
+ * so far is done).  Used to stop students from skipping ahead without
+ * solving the earlier levels.
+ * @param {number} maxLevel Highest level number for the current app.
+ * @returns {number} Highest currently-unlocked level.
+ */
+BlocklyGames.getUnlockedLevel = function(maxLevel) {
+  let unlocked = 1;
+  for (let i = 1; i < maxLevel; i++) {
+    if (!BlocklyGames.loadFromLocalStorage(BlocklyGames.storageName, i)) {
+      break;
+    }
+    unlocked = i + 1;
+  }
+  return unlocked;
 };
 
 /**

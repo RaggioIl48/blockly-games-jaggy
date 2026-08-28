@@ -91,6 +91,8 @@ BlocklyGames.html.titleSpan_ = function(ij, appName) {
  */
 BlocklyGames.html.levelLinks_ = function(ij, suffix) {
   let html = ' &nbsp ';
+  // A level can't be jumped to until every level before it is solved.
+  const unlocked = BlocklyGames.getUnlockedLevel(ij.maxLevel);
   for (let i = 1; i <= ij.maxLevel; i++) {
     let url = `?lang=${ij.lang}&level=${i}`;
     if (suffix) {
@@ -99,6 +101,9 @@ BlocklyGames.html.levelLinks_ = function(ij, suffix) {
     html += ' ';
     if (i === ij.level) {
       html += `<span class="level_number level_current" id="level${i}">${i}</span>`;
+    } else if (i > unlocked) {
+      const cls = (i === ij.maxLevel) ? 'level_number' : 'level_dot';
+      html += `<span class="${cls} level_locked" id="level${i}"></span>`;
     } else if (i === ij.maxLevel) {
       html += `<a class="level_number" id="level${i}" href="${url}">${i}</a>`;
     } else {

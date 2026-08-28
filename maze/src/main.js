@@ -40,7 +40,7 @@ BlocklyGames.LEVEL =
     BlocklyGames.getIntegerParamFromUrl('level', 1, BlocklyGames.MAX_LEVEL);
 
 const MAX_BLOCKS =
-  [Infinity, Infinity, 2, 5, 5, 5, 5, 10, 7, 10, 9, 6, 6, 6, 10, 6, 10, 8, 7, 6, 10, 6, 7][BlocklyGames.LEVEL - 1];
+  [Infinity, Infinity, 2, 5, 5, 5, 5, 10, 7, 10, 9, 6, 6, 6, 6, 6, 10, 8, 7, 6, 10, 6, 7][BlocklyGames.LEVEL - 1];
 
 // Crash type constants.
 const CRASH_STOP = 1;
@@ -250,15 +250,19 @@ const map = [
   [0, 0, 1, 0, 0, 0, 1, 0],
   [0, 0, 1, 1, 1, 1, 1, 0],
   [0, 0, 0, 0, 0, 0, 0, 0]],
-// Level 15.
- [[0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 1, 1, 1, 1, 2, 0],
-  [0, 0, 1, 0, 0, 0, 0, 0],
-  [0, 0, 1, 1, 1, 1, 1, 0],
-  [0, 0, 0, 0, 0, 0, 1, 0],
-  [0, 0, 0, 0, 0, 0, 1, 0],
-  [0, 0, 0, 1, 1, 1, 1, 0],
-  [0, 0, 0, 3, 0, 0, 0, 0]],
+// Level 15.  Left-hand rule gets trapped in a loop; only right-hand
+// wall-following gets through.  At the crossroads midway there's a real
+// 4-way opening, so "if isPathLeft: turnRight" is a valid, verified way
+// to make that turn (not just "if isPathRight: turnRight").
+ [[0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 3, 1, 1, 0, 1, 1, 1, 0],
+  [0, 0, 0, 1, 0, 1, 0, 1, 0],
+  [0, 1, 1, 1, 0, 1, 1, 1, 0],
+  [0, 1, 0, 1, 0, 1, 0, 1, 0],
+  [0, 1, 1, 1, 0, 1, 1, 1, 0],
+  [0, 1, 0, 0, 0, 1, 0, 1, 0],
+  [0, 1, 1, 1, 1, 1, 1, 2, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0]],
 // Level 16.
  [[0, 0, 0, 0, 0, 0, 0, 0],
   [0, 2, 0, 1, 1, 1, 0, 0],
